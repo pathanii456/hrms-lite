@@ -1,194 +1,119 @@
 # HRMS Lite
 
-HRMS Lite is a simple Human Resource Management System built using **Django REST Framework** for the backend and **React.js** for the frontend.
-
-The application allows managing employees and tracking their daily attendance.
+A simple **Human Resource Management System (HRMS)** built with **Django REST Framework** for the backend and **React** for the frontend.  
 
 ---
 
-## Features
+## **Features**
 
-### Employee Management
-- Add new employees
-- View employees list
-- Delete employees
-
-### Attendance Management
-- Mark attendance for employees
-- View attendance records
-- Filter attendance by:
-  - Date
-  - Status (Present / Absent)
-- Reset filters to view all records
+- Add, view, and delete employees  
+- Mark and view attendance  
+- Filter attendance by date and status  
+- Fully deployed and accessible online  
 
 ---
 
-## Tech Stack
+## **Tech Stack**
 
-### Backend
-- Python
-- Django
-- Django REST Framework
-- SQLite
-
-### Frontend
-- React.js
-- Axios
-- Bootstrap
+- **Backend:** Django 5.2, Django REST Framework, SQLite (for free tier)  
+- **Frontend:** React (Create React App), Axios  
+- **Deployment:** Render (Backend), Vercel (Frontend)  
+- **CORS Handling:** `django-cors-headers`  
 
 ---
 
-## Project Structure
+## **Frontend URL**
 
-```
+[https://hrms-lite-mu-five.vercel.app/](https://hrms-lite-mu-five.vercel.app/)
+
+---
+
+## **Backend URL**
+
+[https://hrms-lite-lkkc.onrender.com](https://hrms-lite-lkkc.onrender.com)
+
+---
+
+## **Usage**
+
+1. **Add Employees**
+   - Go to the frontend → Employee Form  
+   - Fill in employee details → Submit  
+
+2. **View Employees**
+   - Employee List table shows all employees  
+
+3. **Mark Attendance**
+   - Go to Attendance Form → Select employee, date, and status → Submit  
+
+4. **View Attendance**
+   - Attendance List table shows all records  
+   - Filter by date or status  
+
+---
+
+## **Project Structure**
 hrms-lite
 │
 ├── backend
-│   ├── employees
-│   ├── attendance
-│   └── manage.py
+│ ├── hrms
+│ ├── employees
+│ ├── attendance
+│ ├── manage.py
+│ └── requirements.txt
 │
 ├── frontend
-│   ├── src
-│   │   ├── components
-│   │   ├── pages
-│   │   └── services
+│ ├── src
+│ ├── public
+│ └── package.json
 │
 └── README.md
-```
+
 
 ---
 
-## Backend Setup
+## Usage
 
-1. Navigate to backend folder
+### 1️⃣ Add Employees
+- Open the frontend → Employee Form  
+- Fill in Employee ID, Name, Email, Department → Submit  
 
-```
-cd backend
-```
+### 2️⃣ View Employees
+- Employee List table shows all added employees  
+- Delete button removes an employee  
 
-2. Create virtual environment
+### 3️⃣ Mark Attendance
+- Go to Attendance Form  
+- Select employee, date, and status → Submit  
 
-```
-python -m venv venv
-```
-
-3. Activate virtual environment
-
-Windows
-
-```
-venv\Scripts\activate
-```
-
-Mac/Linux
-
-```
-source venv/bin/activate
-```
-
-4. Install dependencies
-
-```
-pip install django djangorestframework django-filter
-```
-
-5. Run migrations
-
-```
-python manage.py migrate
-```
-
-6. Start server
-
-```
-python manage.py runserver
-```
-
-Backend will run at:
-
-```
-http://127.0.0.1:8000/
-```
+### 4️⃣ View Attendance
+- Attendance List table shows all records  
+- Filter by date or status  
 
 ---
 
-## Frontend Setup
+## Frontend Configuration
 
-1. Navigate to frontend folder
+- Axios base URL points to Render backend:
 
-```
-cd frontend
-```
+```javascript
+import axios from "axios";
 
-2. Install dependencies
+const API = axios.create({
+  baseURL: "https://hrms-lite-lkkc.onrender.com/api/",
+});
 
-```
-npm install
-```
+export default API;
 
-3. Start React app
+---------------------------------
+Backend Deployment Notes
 
-```
-npm start
-```
+On Render Free Tier, migrations are applied automatically using:
 
-Frontend will run at:
+bash -c "python manage.py migrate && gunicorn hrms.wsgi:application --bind 0.0.0.0:$PORT"
 
-```
-http://localhost:3000
-```
+Ensure ALLOWED_HOSTS in settings.py includes:
 
----
-
-## API Endpoints
-
-### Employees
-
-| Method | Endpoint | Description |
-|------|------|------|
-GET | /employees/ | List employees
-POST | /employees/ | Create employee
-DELETE | /employees/{id}/ | Delete employee
-
-### Attendance
-
-| Method | Endpoint | Description |
-|------|------|------|
-GET | /attendance/ | List attendance
-POST | /attendance/ | Mark attendance
-
-### Filters
-
-```
-/attendance/?date=YYYY-MM-DD
-/attendance/?status=present
-/attendance/?status=absent
-```
-
----
-
-## Example Attendance Record
-
-```
-Employee: EMP001 - Imran Pathan
-Date: 2026-03-15
-Status: Present
-```
-
----
-
-## Future Improvements
-
-- Authentication (Login / JWT)
-- Edit employee feature
-- Attendance dashboard
-- Monthly attendance report
-- Pagination
-
----
-
-## Author
-
-Imran Pathan  
-Python Backend Developer
+ALLOWED_HOSTS = ["hrms-lite-lkkc.onrender.com", "localhost", "127.0.0.1"]
+or 
+ALLOWED_HOSTS = ["*"]
