@@ -1,7 +1,10 @@
 import axios from "axios"
 
+// const API = axios.create({
+//   baseURL: "http://localhost:8000/api"
+// })
 const API = axios.create({
-  baseURL: "http://localhost:8000/api"
+  baseURL: "https://hrms-lite-lkkc.onrender.com/api/"
 })
 
 export default API
