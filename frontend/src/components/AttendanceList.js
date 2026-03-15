@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback  } from "react"
 import API from "../services/api"
 
 function AttendanceList({ refresh }) {
@@ -7,8 +7,8 @@ function AttendanceList({ refresh }) {
   const [date, setDate] = useState("")
   const [status, setStatus] = useState("")
 
-  const loadAttendance = async () => {
-
+// Wrap loadAttendance in useCallback so it's stable
+  const loadAttendance = useCallback(async () => {
     let url = "/attendance/?"
 
     if (date) url += `date=${date}&`
@@ -16,11 +16,12 @@ function AttendanceList({ refresh }) {
 
     const res = await API.get(url)
     setAttendance(res.data)
-  }
+  }, [date, status]) // dependencies inside the function
 
+  // Now include loadAttendance in useEffect dependencies
   useEffect(() => {
     loadAttendance()
-  }, [refresh, date, status])
+  }, [refresh, loadAttendance])
 
   const clearFilters = () => {
     setDate("")

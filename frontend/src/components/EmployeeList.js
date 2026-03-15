@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import API from "../services/api"
 
 function EmployeeList({ refresh }) {
 
   const [employees, setEmployees] = useState([])
 
-  const loadEmployees = async () => {
+  // Wrap loadEmployees in useCallback
+  const loadEmployees = useCallback(async () => {
     const res = await API.get("/employees/")
     setEmployees(res.data)
-  }
+  }, []) // no dependencies inside
 
+  // Include loadEmployees in useEffect dependencies
   useEffect(() => {
     loadEmployees()
-  }, [refresh])
+  }, [refresh, loadEmployees])
 
   const deleteEmployee = async (id) => {
     await API.delete(`/employees/${id}/`)
